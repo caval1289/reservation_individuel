@@ -6,7 +6,7 @@ use App\Repository\ArtistRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
-# [@ORM\Table(name="artists")
+# @ORM\Table(name="artists")
 class Artist
 {
     #[ORM\Id]
