@@ -21,7 +21,7 @@ class TypeController extends AbstractController
             'resource' => 'types',
         ]);
     }
-    #[Route('/type/{id}', name:'type_show', methods: ['GET'])]
+    #[Route('/{id}', name:'type_show', methods: ['GET'])]
     public function show(int $id, TypeRepository $repository): Response
     {
         $type = $repository->find($id);
