@@ -21,7 +21,7 @@ class LocalityController extends AbstractController
             'resource' => 'localitys',
         ]);
     }
-    #[Route('/{id}', name:'locality_show', methods: ['GET'])]
+    #[Route('/locality/{id}', name:'locality_show', methods: ['GET'])]
     public function show(int $id, LocalityRepository $repository): Response
     {
         $locality = $repository->find($id);
