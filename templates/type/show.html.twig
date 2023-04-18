@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiche d'un type{% endblock %}
+{% block title %}Fiche d'un type
+{% endblock %}
 
 {% block body %}
-    <h1>{{ type.type|capitalize }}</h1>
-    <nav><a href="{{ path('type_index') }}">Retour à l'index</a></nav>
+	<h1>{{ type.type|capitalize }}</h1>
+	<h2>Liste des artistes</h2>
+	<ul>
+		{% for artist in type.artists %}
+			<li>{{ artist.firstname }}
+				{{ artist.lastname }}</li>
+		{% endfor %}
+	</ul>
+
+	<nav>
+		<a href="{{ path('type_index') }}">Retour à l'index</a>
+	</nav>
 {% endblock %}
