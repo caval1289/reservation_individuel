@@ -22,7 +22,7 @@ class LocationController extends AbstractController
         ]);
 
     }
-    #[Route('/location/{id}', name:'location_show', methods: ['GET'])]
+    #[Route('/{id}', name:'location_show', methods: ['GET'])]
     public function show(int $id, LocationRepository $repository): Response
     {
         $location = $repository->find($id);
