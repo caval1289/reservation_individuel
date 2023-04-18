@@ -10,8 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
- #[ORM\Table(name:"locations")]
- #[UniqueEntity("slug")]
+#[ORM\Table(name: "locations")]
+#[UniqueEntity("slug")]
 
 class Location
 {
@@ -30,7 +30,7 @@ class Location
     private ?string $address = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
-    #[JoinColumn(onDelete:"RESTRICT")]
+    #[JoinColumn(onDelete: "RESTRICT")]
     private ?Locality $locality = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -42,9 +42,13 @@ class Location
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Show::class)]
     private Collection $shows;
 
+    #[ORM\OneToMany(mappedBy: 'the_location', targetEntity: Representation::class)]
+    private Collection $representations;
+
     public function __construct()
     {
         $this->shows = new ArrayCollection();
+        $this->representations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +152,36 @@ class Location
             // set the owning side to null (unless already changed)
             if ($show->getLocation() === $this) {
                 $show->setLocation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Representation>
+     */
+    public function getRepresentations(): Collection
+    {
+        return $this->representations;
+    }
+
+    public function addRepresentation(Representation $representation): self
+    {
+        if (!$this->representations->contains($representation)) {
+            $this->representations->add($representation);
+            $representation->setTheLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepresentation(Representation $representation): self
+    {
+        if ($this->representations->removeElement($representation)) {
+            // set the owning side to null (unless already changed)
+            if ($representation->getTheLocation() === $this) {
+                $representation->setTheLocation(null);
             }
         }
 
