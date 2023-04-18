@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
-#[ORM\Table(name:"types")]
+#[ORM\Table(name: "types")]
 class Type
 {
     #[ORM\Id]
@@ -19,7 +19,7 @@ class Type
     #[ORM\Column(length: 60)]
     private ?string $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'types')]
+    #[ORM\OneToMany(targetEntity: ArtistType::class, mappedBy: 'type', orphanRemoval: true)]
     private Collection $artists;
 
     public function __construct()
@@ -45,27 +45,29 @@ class Type
     }
 
     /**
-     * @return Collection<int, Artist>
+     * @return Collection<int, ArtistType>
      */
     public function getArtists(): Collection
     {
         return $this->artists;
     }
 
-    public function addArtist(Artist $artist): self
+    public function addArtist(ArtistType $artist): self
     {
         if (!$this->artists->contains($artist)) {
             $this->artists->add($artist);
-            $artist->addType($this);
+            $artist->setType($this);
         }
 
         return $this;
     }
 
-    public function removeArtist(Artist $artist): self
+    public function removeArtist(ArtistType $artist): self
     {
         if ($this->artists->removeElement($artist)) {
-            $artist->removeType($this);
+            if ($artist->getType() === $this) {
+                $artist->setType(null);
+            }
         }
 
         return $this;

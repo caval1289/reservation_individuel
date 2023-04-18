@@ -6,6 +6,4 @@ Install Project composer install
 
 Start in local php -S 127.0.0.1:8000 -t public
 
-
-Chapitre 3 – Modéliser les relations simples ou Opération d’écriture (Create, Update, Delete)
-Formulaire de modification pour un modèle unique
+p74 Étape 3 – Corriger les templates
