@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArtistTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -39,6 +41,14 @@ class ArtistType
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
+    #[ORM\ManyToMany(targetEntity: Show::class, mappedBy: 'artistTypes')]
+    private Collection $shows;
+
+    public function __construct()
+    {
+        $this->shows = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +74,33 @@ class ArtistType
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Show>
+     */
+    public function getShows(): Collection
+    {
+        return $this->shows;
+    }
+
+    public function addShow(Show $show): self
+    {
+        if (!$this->shows->contains($show)) {
+            $this->shows->add($show);
+            $show->addArtistType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShow(Show $show): self
+    {
+        if ($this->shows->removeElement($show)) {
+            $show->removeArtistType($this);
+        }
 
         return $this;
     }
