@@ -6,4 +6,4 @@ Install Project composer install
 
 Start in local php -S 127.0.0.1:8000 -t public
 
-p74 Étape 3 – Corriger les templates
+p85 77.	Répétez ces opérations pour les relations entre les modèles User et Role.

@@ -11,16 +11,17 @@ class RoleFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $roles = [
-            ['role'=>'admin'],
-            ['role'=>'membre'],
-            ['role'=>'affilié'],
+            ['role' => 'admin'],
+            ['role' => 'membre'],
+            ['role' => 'affilié'],
         ];
-        
+
         foreach ($roles as $record) {
             $role = new Role();
             $role->setRole($record['role']);
-            
+
             $manager->persist($role);
+            $this->addReference($record['role'], $role);
         }
 
         $manager->flush();
