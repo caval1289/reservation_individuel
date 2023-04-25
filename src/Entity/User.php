@@ -49,9 +49,13 @@ class User
     #[ORM\Column(length: 100)]
     private ?string $email = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: RepresentationUser::class, orphanRemoval:true)]
+    private Collection $representationUsers;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->representationUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +203,36 @@ class User
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RepresentationUser>
+     */
+    public function getRepresentationUser(): Collection
+    {
+        return $this->representationUsers;
+    }
+
+    public function addRepresentationUser(RepresentationUser $representation): self
+    {
+        if (!$this->representationUsers->contains($representation)) {
+            $this->representationUsers->add($representation);
+            $representation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepresentationUser(RepresentationUser $representation): self
+    {
+        if ($this->representationUsers->removeElement($representation)) {
+            // set the owning side to null (unless already changed)
+            if ($representation->getUser() === $this) {
+                $representation->setUser(null);
+            }
+        }
 
         return $this;
     }
