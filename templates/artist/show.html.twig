@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiche d'un artiste
+{% endblock %}
+
+{% block body %}
+	<h1>{{ artist.firstname }}
+		{{ artist.lastname }}
+	</h1>
+	<h2>Liste des types</h2>
+	<ul>
+		{% for artistType in artist.types  %}
+			<li>{{ artistType.type.type }}</li>
+		{% endfor %}
+	</ul>
+	<nav>
+		<a href="{{ path('artist_index') }}">Retour à l'index</a>
+	</nav>
+{% endblock %}
