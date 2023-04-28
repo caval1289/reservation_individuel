@@ -7,13 +7,10 @@
 	<h1>{{ artist.firstname }}
 		{{ artist.lastname }}
 	</h1>
-	    <div><a href="{{ path('artist_edit', {'id': artist.id}) }}">Modifier</a></div>
-	<h2>Liste des types</h2>
-	<ul>
-		{% for artistType in artist.types  %}
-			<li>{{ artistType.type.type }}</li>
-		{% endfor %}
-	</ul>
+	<div>
+		<a href="{{ path('artist_edit', {'id': artist.id}) }}">Modifier</a>
+	</div>
+	{{ include('artist/_delete_form.html.twig') }}
 	<nav>
 		<a href="{{ path('artist_index') }}">Retour à l'index</a>
 	</nav>

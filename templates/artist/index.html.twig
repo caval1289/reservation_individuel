@@ -12,15 +12,19 @@
 			<tr>
 				<th>Firstname</th>
 				<th>Lastname</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for artist in artists %}
 				<tr>
 					<td>{{ artist.firstname }}</td>
+					<td>{{ artist.lastname }}</td>
 					<td>
-						<a href="{{ path('artist_show', { id: artist.id }) }}">{{ artist.lastname }}</a>
+						<a href="{{ path('artist_show', { id: artist.id }) }}">Afficher</a>
+						{{ include('artist/_delete_form.html.twig') }}
 					</td>
+
 				</tr>
 			{% endfor %}
 		</tbody>
