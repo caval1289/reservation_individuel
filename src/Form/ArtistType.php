@@ -13,8 +13,8 @@ class ArtistType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname',null, ['error_bubbling' => true])
-            ->add('lastname', null, ['error_bubbling' => true])
+            ->add('firstname' )
+            ->add('lastname')
             ->add('save', SubmitType::class)
         ;
     }

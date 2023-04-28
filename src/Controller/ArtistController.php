@@ -23,6 +23,24 @@ class ArtistController extends AbstractController
             'resource' => 'artistes',
         ]);
     }
+    #[Route('/new', name: 'artist_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ArtistRepository $artistRepository): Response
+    {
+        $artist = new Artist();
+        $form = $this->createForm(ArtistType::class, $artist);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $artistRepository->save($artist, true);
+
+            return $this->redirectToRoute('artist_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('artist/new.html.twig', [
+            'artist' => $artist,
+            'form' => $form->createView(),
+        ]);
+    }
     #[Route('/{id}', name: 'artist_show', methods: ['GET'])]
     public function show(int $id, ArtistRepository $repository): Response
     {
