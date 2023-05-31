@@ -6,6 +6,7 @@ use App\Repository\ArtistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 #[ORM\Table(name: "artists")]
@@ -17,9 +18,21 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\Length(
+        min: 2,
+        max: 60,
+        minMessage: "Le prénom doit comporter au moins {{ limit }} caractères",
+        maxMessage: "Le prénom ne peut pas comporter plus de {{ limit }} caractères"
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\Length(
+        min: 2,
+        max: 60,
+        minMessage: "Le nom doit comporter au moins {{ limit }} caractères",
+        maxMessage: "Le nom ne peut pas comporter plus de {{ limit }} caractères"
+    )]
     private ?string $lastname = null;
 
     #[ORM\OneToMany(targetEntity: ArtistType::class, mappedBy: 'artist', orphanRemoval: true)]
